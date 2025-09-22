@@ -1,103 +1,248 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import Header from '@/components/Header';
+import Navigation from '@/components/Navigation';
+import ClientView from '@/components/ClientView';
+import KitchenView from '@/components/KitchenView';
+import RunnerView from '@/components/RunnerView';
+import AdminView from '@/components/AdminView';
+import { MenuItem, Order, Tab, DateInventory } from '@/types';
+import { getAvailableOrderDates } from '@/lib/dateUtils';
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [activeTab, setActiveTab] = useState<Tab>('client');
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([
+    { id: 1, name: 'Bacon Egg Sandwich', count: 10 },
+    { id: 2, name: 'Sausage Egg Sandwich', count: 10 },
+    { id: 3, name: 'Veggie Egg Sandwich', count: 10 },
+    { id: 4, name: 'Ham Egg Sandwich', count: 10 },
+    { id: 5, name: 'Cheese Egg Sandwich', count: 10 },
+  ]);
+  const [cart, setCart] = useState<string[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [isOpen, setIsOpen] = useState(true);
+  const [customerName, setCustomerName] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
+  const [selectedOrderDate, setSelectedOrderDate] = useState('');
+  const [adminAvailableDates, setAdminAvailableDates] = useState<string[]>([]);
+  const [dateInventory, setDateInventory] = useState<DateInventory>({});
+  
+  // Get available dates for ordering
+  const availableOrderDates = getAvailableOrderDates(adminAvailableDates);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+  // Initialize inventory for a date if not exists
+  const initializeDateInventory = (date: string) => {
+    if (!dateInventory[date]) {
+      const newInventory = { ...dateInventory };
+      newInventory[date] = {};
+      menuItems.forEach(item => {
+        newInventory[date][item.id] = 10; // Default stock
+      });
+      setDateInventory(newInventory);
+    }
+  };
+
+  // Get current menu items with counts for selected date
+  const getCurrentMenuItems = (): MenuItem[] => {
+    if (!selectedOrderDate) return menuItems;
+    
+    return menuItems.map(item => ({
+      ...item,
+      count: dateInventory[selectedOrderDate]?.[item.id] ?? 10
+    }));
+  };
+
+  const addToCart = (id: number) => {
+    if (!selectedOrderDate) {
+      alert('Please select a delivery date first');
+      return;
+    }
+
+    // Initialize inventory for date if needed
+    initializeDateInventory(selectedOrderDate);
+    
+    const currentCount = dateInventory[selectedOrderDate]?.[id] ?? 10;
+    if (currentCount > 0) {
+      const item = menuItems.find(m => m.id === id);
+      if (item) {
+        setCart([...cart, item.name]);
+        
+        // Update inventory for the specific date
+        const newInventory = { ...dateInventory };
+        newInventory[selectedOrderDate][id] = currentCount - 1;
+        setDateInventory(newInventory);
+      }
+    }
+  };
+
+  const checkout = async () => {
+    if (cart.length === 0) {
+      alert('Cart is empty');
+      return;
+    }
+    if (!customerName.trim()) {
+      alert('Please enter your name');
+      return;
+    }
+    if (!customerPhone.trim()) {
+      alert('Please enter your phone number');
+      return;
+    }
+    if (!selectedOrderDate) {
+      alert('Please select a delivery date');
+      return;
+    }
+    
+    const newOrder: Order = {
+      id: Date.now(),
+      items: [...cart],
+      status: 'New',
+      timestamp: Date.now(),
+      customerName: customerName.trim(),
+      customerPhone: customerPhone.trim(),
+      orderDate: selectedOrderDate,
+    };
+    
+    // Add to local state first
+    setOrders([...orders, newOrder]);
+    setCart([]);
+    setCustomerName('');
+    setCustomerPhone('');
+    setSelectedOrderDate('');
+    
+    // Sync to Google Sheets
+    try {
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newOrder),
+      });
+      
+      if (!response.ok) {
+        console.error('Failed to sync order to Google Sheets');
+        // Don't block the user experience, but log the error
+      } else {
+        console.log('Order synced to Google Sheets successfully');
+      }
+    } catch (error) {
+      console.error('Error syncing to Google Sheets:', error);
+      // Continue with local experience
+    }
+    
+    alert('Order placed!');
+  };
+
+  const markReady = async (id: number) => {
+    // Update local state first
+    setOrders(orders.map(order => 
+      order.id === id ? { ...order, status: 'Ready' } : order
+    ));
+    
+    // Sync status to Google Sheets
+    try {
+      const response = await fetch(`/api/orders/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'Ready' }),
+      });
+      
+      if (!response.ok) {
+        console.error('Failed to sync order status to Google Sheets');
+      } else {
+        console.log(`Order ${id} status updated to Ready in Google Sheets`);
+      }
+    } catch (error) {
+      console.error('Error syncing status to Google Sheets:', error);
+    }
+  };
+
+  const markDelivered = async (id: number) => {
+    // Update local state first
+    setOrders(orders.map(order => 
+      order.id === id ? { ...order, status: 'Delivered' } : order
+    ));
+    
+    // Sync status to Google Sheets
+    try {
+      const response = await fetch(`/api/orders/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'Delivered' }),
+      });
+      
+      if (!response.ok) {
+        console.error('Failed to sync order status to Google Sheets');
+      } else {
+        console.log(`Order ${id} status updated to Delivered in Google Sheets`);
+      }
+    } catch (error) {
+      console.error('Error syncing status to Google Sheets:', error);
+    }
+  };
+
+  const toggleOpen = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleDateSelect = (date: string) => {
+    setSelectedOrderDate(date);
+    // Initialize inventory for this date if needed
+    initializeDateInventory(date);
+  };
+
+  const renderActiveTab = () => {
+    switch (activeTab) {
+      case 'client':
+        return (
+          <ClientView
+            menuItems={getCurrentMenuItems()}
+            cart={cart}
+            customerName={customerName}
+            customerPhone={customerPhone}
+            selectedOrderDate={selectedOrderDate}
+            availableOrderDates={availableOrderDates}
+            onAddToCart={addToCart}
+            onCheckout={checkout}
+            onCustomerNameChange={setCustomerName}
+            onCustomerPhoneChange={setCustomerPhone}
+            onDateSelect={handleDateSelect}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+        );
+      case 'kitchen':
+        return (
+          <KitchenView
+            tickets={orders}
+            onMarkReady={markReady}
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
+        );
+      case 'runner':
+        return (
+          <RunnerView
+            deliveries={orders}
+            onMarkDelivered={markDelivered}
           />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        );
+      case 'admin':
+        return (
+          <AdminView
+            isOpen={isOpen}
+            onToggleOpen={toggleOpen}
+            allOrders={orders}
+            availableDates={adminAvailableDates}
+            onUpdateAvailableDates={setAdminAvailableDates}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="min-h-screen">
+      <Header />
+      <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
+      {renderActiveTab()}
     </div>
   );
 }
