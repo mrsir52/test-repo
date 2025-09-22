@@ -51,7 +51,7 @@ export async function GET() {
         range: 'Orders!A1:H1',
       });
       ordersData = response.data.values;
-    } catch (error) {
+    } catch {
       // Orders sheet might not exist yet
       ordersData = 'Orders sheet not found (will be created on first order)';
     }

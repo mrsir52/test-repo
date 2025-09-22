@@ -12,7 +12,7 @@ import { getAvailableOrderDates } from '@/lib/dateUtils';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<Tab>('client');
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([
+  const [menuItems] = useState<MenuItem[]>([
     { id: 1, name: 'Bacon Egg Sandwich', count: 10 },
     { id: 2, name: 'Sausage Egg Sandwich', count: 10 },
     { id: 3, name: 'Veggie Egg Sandwich', count: 10 },
