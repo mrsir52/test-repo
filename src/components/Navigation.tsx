@@ -25,7 +25,7 @@ export default function Navigation({ activeTab, onTabChange }: NavigationProps) 
               onClick={() => onTabChange(tab.id)}
               className={`px-6 py-3 font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 ${
                 activeTab === tab.id
-                  ? 'bg-green-600 text-white shadow-lg'
+                  ? 'bg-blue-900 text-white shadow-lg'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >

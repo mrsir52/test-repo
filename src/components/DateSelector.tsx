@@ -23,7 +23,7 @@ export default function DateSelector({ availableDates, selectedDate, onDateSelec
   return (
     <div className="bg-white rounded-3xl shadow-lg border border-gray-100 p-8 mb-8">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-12 h-12 bg-green-600 rounded-2xl flex items-center justify-center">
+        <div className="w-12 h-12 bg-blue-900 rounded-2xl flex items-center justify-center">
           <span className="text-2xl">📅</span>
         </div>
         <div>
@@ -39,13 +39,13 @@ export default function DateSelector({ availableDates, selectedDate, onDateSelec
             onClick={() => onDateSelect(date)}
             className={`p-6 rounded-2xl text-left transition-all duration-300 transform hover:scale-105 ${
               selectedDate === date
-                ? 'bg-green-600 text-white shadow-xl'
+                ? 'bg-blue-900 text-white shadow-xl'
                 : 'bg-gray-50 hover:bg-gray-100 border border-gray-200'
             }`}
           >
             <div className="flex items-center gap-3 mb-2">
               <div className={`w-3 h-3 rounded-full ${
-                selectedDate === date ? 'bg-white' : 'bg-green-600'
+                selectedDate === date ? 'bg-white' : 'bg-blue-900'
               }`}></div>
               <div className={`font-bold text-xl ${
                 selectedDate === date ? 'text-white' : 'text-gray-900'
@@ -54,7 +54,7 @@ export default function DateSelector({ availableDates, selectedDate, onDateSelec
               </div>
             </div>
             <div className={`text-sm font-medium ${
-              selectedDate === date ? 'text-green-100' : 'text-gray-600'
+              selectedDate === date ? 'text-blue-100' : 'text-gray-600'
             }`}>
               Available for delivery
             </div>
@@ -62,7 +62,7 @@ export default function DateSelector({ availableDates, selectedDate, onDateSelec
         ))}
       </div>
       
-      <div className="mt-6 p-4 bg-green-50 rounded-2xl">
+      <div className="mt-6 p-4 bg-blue-50 rounded-2xl">
         <p className="text-gray-700 text-center font-medium flex items-center justify-center gap-2">
           <span className="text-xl">🎿</span>
           Orders will be delivered fresh to the ski line on your selected date

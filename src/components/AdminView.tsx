@@ -38,11 +38,11 @@ export default function AdminView({ isOpen, onToggleOpen, allOrders, availableDa
   return (
     <div className="p-6 max-w-6xl mx-auto">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+        <div className="w-3 h-3 bg-blue-600 rounded-full animate-pulse"></div>
         <h2 className="text-2xl font-bold text-black">Admin Console</h2>
         <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
           isOpen 
-            ? 'bg-green-100 text-green-800' 
+            ? 'bg-blue-100 text-blue-800' 
             : 'bg-red-100 text-red-800'
         }`}>
           {isOpen ? '🟢 Open' : '🔴 Closed'}
@@ -51,13 +51,13 @@ export default function AdminView({ isOpen, onToggleOpen, allOrders, availableDa
       
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Restaurant Status */}
-        <div className="bg-white border border-green-100 p-6 rounded-xl shadow-sm">
+        <div className="bg-white border border-blue-100 p-6 rounded-xl shadow-sm">
           <h3 className="text-lg font-bold text-black mb-4">Restaurant Control</h3>
           
           {/* Google Sheets Status */}
           <div className="mb-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
             <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
               <span className="text-sm font-semibold text-black">Google Sheets Integration</span>
             </div>
             <p className="text-xs text-gray-600">
@@ -69,7 +69,7 @@ export default function AdminView({ isOpen, onToggleOpen, allOrders, availableDa
             className={`w-full py-3 rounded-lg font-bold transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-[1.02] ${
               isOpen
                 ? 'bg-red-500 text-white hover:bg-red-600'
-                : 'bg-green-500 text-white hover:bg-green-600'
+                : 'bg-blue-900 text-white hover:bg-blue-800'
             }`}
           >
             {isOpen ? '🛑 Close Restaurant' : '🟢 Open Restaurant'}
@@ -77,7 +77,7 @@ export default function AdminView({ isOpen, onToggleOpen, allOrders, availableDa
           <div className="mt-4 p-3 bg-gray-50 rounded-lg">
             <p className="text-black text-sm">
               <span className="font-semibold">Current Status:</span>{' '}
-              <span className={isOpen ? 'text-green-600' : 'text-red-600'}>
+              <span className={isOpen ? 'text-blue-600' : 'text-red-600'}>
                 {isOpen ? 'Accepting Orders' : 'Closed for Orders'}
               </span>
             </p>
@@ -85,7 +85,7 @@ export default function AdminView({ isOpen, onToggleOpen, allOrders, availableDa
         </div>
 
         {/* Order Statistics */}
-        <div className="lg:col-span-2 bg-white border border-green-100 p-6 rounded-xl shadow-sm">
+        <div className="lg:col-span-2 bg-white border border-blue-100 p-6 rounded-xl shadow-sm">
           <h3 className="text-lg font-bold text-black mb-4">Order Statistics</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center p-4 bg-gray-50 rounded-lg border border-gray-200">
@@ -100,15 +100,15 @@ export default function AdminView({ isOpen, onToggleOpen, allOrders, availableDa
               <div className="text-2xl font-bold text-blue-800">{stats.ready}</div>
               <div className="text-sm text-blue-700 font-medium">Ready to Go</div>
             </div>
-            <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
-              <div className="text-2xl font-bold text-green-800">{stats.delivered}</div>
-              <div className="text-sm text-green-700 font-medium">Delivered</div>
+            <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <div className="text-2xl font-bold text-blue-800">{stats.delivered}</div>
+              <div className="text-sm text-blue-700 font-medium">Delivered</div>
             </div>
           </div>
         </div>
 
         {/* Calendar Management */}
-        <div className="lg:col-span-3 bg-white border border-green-100 p-6 rounded-xl shadow-sm">
+        <div className="lg:col-span-3 bg-white border border-blue-100 p-6 rounded-xl shadow-sm">
           <h3 className="text-lg font-bold text-black mb-4">Available Order Dates</h3>
           
           {/* Add New Date */}
@@ -118,12 +118,12 @@ export default function AdminView({ isOpen, onToggleOpen, allOrders, availableDa
               value={newDate}
               onChange={(e) => setNewDate(e.target.value)}
               min={formatDate(new Date())}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 text-black"
+              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-black"
             />
             <button
               onClick={addDate}
               disabled={!newDate}
-              className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:bg-gray-300 transition-colors"
+              className="px-6 py-2 bg-blue-900 text-white rounded-lg hover:bg-blue-800 disabled:bg-gray-300 transition-colors"
             >
               Add Date
             </button>
@@ -137,7 +137,7 @@ export default function AdminView({ isOpen, onToggleOpen, allOrders, availableDa
             ) : (
               <div className="grid gap-2 md:grid-cols-2">
                 {availableDates.map((date) => (
-                  <div key={date} className="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-lg">
+                  <div key={date} className="flex items-center justify-between p-3 bg-blue-50 border border-blue-200 rounded-lg">
                     <span className="font-medium text-black">{formatDisplayDate(date)}</span>
                     <button
                       onClick={() => removeDate(date)}
@@ -153,7 +153,7 @@ export default function AdminView({ isOpen, onToggleOpen, allOrders, availableDa
         </div>
 
         {/* Recent Orders */}
-        <div className="lg:col-span-3 bg-white border border-green-100 p-6 rounded-xl shadow-sm">
+        <div className="lg:col-span-3 bg-white border border-blue-100 p-6 rounded-xl shadow-sm">
           <h3 className="text-lg font-bold text-black mb-4">Recent Orders</h3>
           <div className="space-y-2 max-h-80 overflow-y-auto">
             {allOrders.length === 0 ? (
@@ -180,7 +180,7 @@ export default function AdminView({ isOpen, onToggleOpen, allOrders, availableDa
                       ? 'bg-yellow-100 text-yellow-800'
                       : order.status === 'Ready'
                       ? 'bg-blue-100 text-blue-800'
-                      : 'bg-green-100 text-green-800'
+                      : 'bg-blue-100 text-blue-800'
                   }`}>
                     {order.status === 'New' ? '🍳 Cooking' : order.status === 'Ready' ? '📦 Ready' : '✅ Delivered'}
                   </span>
