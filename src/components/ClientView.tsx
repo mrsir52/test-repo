@@ -41,7 +41,7 @@ export default function ClientView({
 
       <div className="bg-white rounded-3xl shadow-lg border border-gray-100 p-8 mb-8">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 bg-green-600 rounded-2xl flex items-center justify-center">
+          <div className="w-12 h-12 bg-blue-900 rounded-2xl flex items-center justify-center">
             <span className="text-2xl">🥪</span>
           </div>
           <div>
@@ -57,7 +57,7 @@ export default function ClientView({
                 <div className="flex-1">
                   <h3 className="font-bold text-xl text-gray-900 mb-1">{item.name}</h3>
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                    <div className="w-2 h-2 bg-blue-900 rounded-full"></div>
                     <span className="text-gray-600 font-medium">Available: {item.count}</span>
                   </div>
                 </div>
@@ -67,7 +67,7 @@ export default function ClientView({
                   className={`px-8 py-3 rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 ${
                     item.count <= 0
                       ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                      : 'bg-green-600 text-white hover:bg-green-700 shadow-lg'
+                      : 'bg-blue-900 text-white hover:bg-blue-800 shadow-lg'
                   }`}
                 >
                   Add to Cart
@@ -80,7 +80,7 @@ export default function ClientView({
       
       <div className="bg-white rounded-3xl shadow-lg border border-gray-100 p-8 mb-8">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 bg-green-600 rounded-2xl flex items-center justify-center">
+          <div className="w-12 h-12 bg-blue-900 rounded-2xl flex items-center justify-center">
             <span className="text-2xl">🛒</span>
           </div>
           <div>
@@ -100,15 +100,15 @@ export default function ClientView({
         ) : (
           <div className="space-y-3">
             {cart.map((item, index) => (
-              <div key={index} className="flex items-center gap-3 p-3 bg-green-50 rounded-2xl">
-                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+              <div key={index} className="flex items-center gap-3 p-3 bg-blue-50 rounded-2xl">
+                <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
                 <span className="text-gray-900 font-medium">{item}</span>
               </div>
             ))}
             <div className="mt-6 p-4 bg-gray-50 rounded-2xl">
               <div className="flex items-center justify-between">
                 <span className="font-bold text-gray-900">Total items:</span>
-                <span className="font-bold text-xl text-green-500">{cart.length}</span>
+                <span className="font-bold text-xl text-blue-600">{cart.length}</span>
               </div>
             </div>
           </div>
@@ -117,7 +117,7 @@ export default function ClientView({
       
       <div className="bg-white rounded-3xl shadow-lg border border-gray-100 p-8 mb-8">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 bg-green-600 rounded-2xl flex items-center justify-center">
+          <div className="w-12 h-12 bg-blue-900 rounded-2xl flex items-center justify-center">
             <span className="text-2xl">👤</span>
           </div>
           <div>
@@ -136,7 +136,7 @@ export default function ClientView({
               value={customerName}
               onChange={(e) => onCustomerNameChange(e.target.value)}
               placeholder="Enter your full name"
-              className="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:border-green-400 focus:ring-4 focus:ring-green-100 text-gray-900 font-medium"
+              className="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 text-gray-900 font-medium"
             />
           </div>
           <div>
@@ -148,7 +148,7 @@ export default function ClientView({
               value={customerPhone}
               onChange={(e) => onCustomerPhoneChange(e.target.value)}
               placeholder="(555) 123-4567"
-              className="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:border-green-400 focus:ring-4 focus:ring-green-100 text-gray-900 font-medium"
+              className="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 text-gray-900 font-medium"
             />
           </div>
         </div>
@@ -160,7 +160,7 @@ export default function ClientView({
         className={`w-full py-5 rounded-3xl font-bold text-xl transition-all duration-300 transform hover:scale-[1.02] ${
           cart.length === 0
             ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-            : 'bg-green-600 text-white hover:bg-green-700 shadow-xl'
+            : 'bg-blue-900 text-white hover:bg-blue-800 shadow-xl'
         }`}
       >
         <span className="flex items-center justify-center gap-3">
