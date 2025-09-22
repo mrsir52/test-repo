@@ -36,7 +36,7 @@ export const addOrderToSheet = async (order: Order): Promise<void> => {
         spreadsheetId,
         range: 'Orders!A1:A1',
       });
-    } catch (error) {
+    } catch {
       // Sheet doesn't exist, create it with headers
       await sheets.spreadsheets.batchUpdate({
         spreadsheetId,

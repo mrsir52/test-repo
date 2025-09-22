@@ -122,7 +122,7 @@ export default function ClientView({
           </div>
           <div>
             <h3 className="text-2xl font-bold text-gray-900">Customer Info</h3>
-            <p className="text-gray-600">We'll contact you when ready</p>
+            <p className="text-gray-600">We&apos;ll contact you when ready</p>
           </div>
         </div>
         
